@@ -1,16 +1,21 @@
--- user-service schema snapshot
--- (실제로는 CI가 pg_dump --schema-only 로 자동 생성할 파일)
+CREATE SCHEMA IF NOT EXISTS "public";
 
-CREATE TABLE users (
-    id          BIGSERIAL PRIMARY KEY,
-    email       VARCHAR(255) NOT NULL UNIQUE,
-    name        VARCHAR(100) NOT NULL,
-    created_at  TIMESTAMPTZ  NOT NULL DEFAULT now()
+CREATE TABLE "public"."users" (
+    "id" bigserial NOT NULL,
+    "email" varchar NOT NULL UNIQUE,
+    "name11" varchar NOT NULL,
+    "created_at" timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY ("id")
 );
 
-CREATE TABLE user_profiles (
-    id          BIGSERIAL PRIMARY KEY,
-    user_id     BIGINT       NOT NULL REFERENCES users(id),
-    bio         TEXT,
-    avatar_url  VARCHAR(500)
+CREATE TABLE "public"."user_profiles" (
+    "id" bigserial NOT NULL,
+    "user_id" bigint NOT NULL,
+    "bio" text,
+    "avatar_url11" varchar,
+    PRIMARY KEY ("id")
 );
+
+-- Foreign key constraints
+-- Schema: public
+ALTER TABLE "public"."user_profiles" ADD CONSTRAINT "fk_user_profiles_user_id_users_id" FOREIGN KEY("user_id") REFERENCES "public"."users"("id");
